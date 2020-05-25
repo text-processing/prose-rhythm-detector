@@ -1,24 +1,3 @@
-""""
-ProseRhythmDetector - the tool for extraction of rhythm features.
-    Copyright (C) 2020  Vladislav Larionov, Vladislav Petryakov, Anatoly Poletaev, Ksenia Lagutina, Alla Manakhova, Nadezhda Lagutina, Elena Boychuk.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
-    The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
-"""
-
-
 """ This module describes conjunctions, pair conjunctions and conjunctive adverbs """
 
 
@@ -36,7 +15,12 @@ def conjunctions(language: str) -> set:
                 'en': {"and", "as", "for", "or", "yet", "but", "till", "as", "if", "after", "until", "because", "and",
                        "or", "nor", "so", "before", "since", "that", "unless", "whether", "while", "where", "when",
                        "why", "what", "how", "whenever", "although", "though", "once", "than", "whereas", "thus",
-                       "in case", "on condition", "who", "which", "whose"}
+                       "in case", "on condition", "who", "which", "whose"},
+                'fr': {'car', 'comme', 'dont', 'et', 'laquelle', 'laquelles', 'lequel', 'lequels', 'lesquelles',
+                       'lesquels', 'lorsque', 'lorsque', 'moins', 'ni', 'ou', 'où', 'plus', 'puisque', 'quand',
+                       'quand', 'que', 'quoique', 'si', 'tantôt'},
+                'es': {'apenas', 'aunque', 'bien', 'como', 'como', 'conque', 'cuando', 'donde', 'e', 'luego',
+                       'mientras', 'ni', 'o', 'pero', 'porque', 'pues', 'que', 'que', 'según', 'si', 'sino', 'y', 'ya'}
                 }[language]
     except KeyError:
         raise Exception("Language %s is not supported" % language)
@@ -50,7 +34,15 @@ def pair_conjunctions(language: str) -> set:
     try:
         return {'ru': {},
                 'en': {("both", "and"), ("either", "or"), ("not only", "but"), ("not only", "but also"),
-                       ("rather", "or"), ("just as", "so"), ("neither", "nor"), ("whether", "or"), ("if", "then")}
+                       ("rather", "or"), ("just as", "so"), ("neither", "nor"), ("whether", "or"), ("if", "then")},
+                'fr': {("afin", "que"), ("alors", "que"), ("avant", "que"), ("bien", "que"), ("comme", "si"),
+                       ("d’", "où"), ("dès", "que"), ("durant", "que"), ("malgré", "que"), ("non", "que"),
+                       ("par", "où"), ("parce", "que"), ("pendant", "que"), ("pour", "que"), ("pourvu", "que"),
+                       ("soit", "que"), ("tandis", "que"), ("tant", "que")},
+                'es': {("a", "donde"), ("antes", "que"), ("así", "como"), ("así", "que"), ("como", "que"),
+                       ("como", "si"), ("de", "donde"), ("en", "donde"), ("en", "tanto"), ("es", "decir"),
+                       ("hasta", "que"), ("luego", "que"), ("para", "que"), ("por", "donde"), ("tal", "como"),
+                       ("tanto", "como")}
                 }[language]
     except KeyError:
         raise Exception("Language %s is not supported" % language)
@@ -73,7 +65,13 @@ def conjunctive_adverbs(language: str) -> set:
                 'en': {("after", "all"), ("also",), ("as", "a", "result"), ("besides",), ("consequently",),
                        ("for", "example"), ("however",), ("in", "addition"), ("in", "fact"), ("in", "other", "words"),
                        ("meanwhile",), ("moreover",), ("on", "the", "other", "hand"), ("therefore",), ("thus",),
-                       ("then",)}
+                       ("then",)},
+                'fr': {("à", "condition", "que"), ("à", "mesure", "que"), ("à", "tel", "point", "que"),
+                       ("au", "cas", "que"), ("au", "point", "que"), ("aussi", "longtemps", "que"),
+                       ("de", "façon", "que"), ("de", "manière", "que"), ("de", "sorte", "que"),
+                       ("du", "moment", "que"), ("en", "cas", "que"), ("jusqu’à", "ce", "que"), ("non", "pas", "que"),
+                       ("pour", "peu", "que"), ("si", "bien", "que")},
+                'es': {("antes", "de", "que"), ("de", "manera", "que"), ("por", "lo", "tanto")}
                 }[language]
     except KeyError:
         raise Exception("Language %s is not supported" % language)

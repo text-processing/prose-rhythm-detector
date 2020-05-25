@@ -23,9 +23,52 @@
       "prepositions": ["в", "к", "с", "на", "о", "об", "обо", "во", "ко", "со", "по", "под", "за", "до", "над", "от",
                        "ото", "пред", "при", "у", "вне", "из", "про", "для", "без"],
       "particles": ["так", "то", "вот", "уже", "ни", "же", "не", "бы", "а", "там", "чтоб", "ли", "ли", "б", "хоть", "уж"],
-      "pronouns": ["он", "его", "него", "ему", "нему", "им", "ним", "она", "ее", "нее", "ей", "ней", "оно", "мне", "я", "моя", "мой", "меня", "мной", "моем", "моём", "мои", "моих", "моим", "они", "их", "них", "им", "ним",  "вы", "вам", "вас", "вами", "ваш", "ваша", "ваше", "вашего", "вашей", "ваши", "вашим", "вашему", "ты", "тебе", "тобой", "тебя", "твой", "твоя", "твои", "твоих", "твоим", "твоей", "твоего", "твоими", "себе", "себя", "собой", "свой", "своя", "свои", "своих", "своим", "своего", "своей", "мы", "нас", "наш", "наша", "наши", "нашего", "нашим", "наших", "нашу", "наше", "нашей", "нашему"],
+      "pronouns": ["он", "его", "него", "ему", "нему", "им", "ним", "она", "ее", "нее", "ей", "ней", "оно", "мне", "я",
+                   "моя", "мой", "меня", "мной", "моем", "моём", "мои", "моих", "моим", "они", "их", "них", "им", "ним",
+                   "вы", "вам", "вас", "вами", "ваш", "ваша", "ваше", "вашего", "вашей", "ваши", "вашим", "вашему",
+                   "ты", "тебе", "тобой", "тебя", "твой", "твоя", "твои", "твоих", "твоим", "твоей", "твоего", "твоими",
+                   "себе", "себя", "собой", "свой", "своя", "свои", "своих", "своим", "своего", "своей", "мы", "нас",
+                   "наш", "наша", "наши", "нашего", "нашим", "наших", "нашу", "наше", "нашей", "нашему"],
       "technical": ["*", "-", "—", "–"],
       "verbs": ["были"]
+    }
+  },
+  "fr": {
+    "anaphora": {
+      "unknown": ["je", "tu", "il", "elle", "ils", "elles", "qu’il", "qu’ils", "qu’elle", "qu’elles", "d’elle",
+                  "d’elles", "nous", "vous", "on", "lui", "leur", "eux", "d’eux", "celle", "celui", "ceux", "que",
+                  "qui", "comme", "ne", "pas", "non", "point", "oui", "quand", "dont", "alors", "donc", "d’ailleurs",
+                  "si", "car", "où", "ou", "mais", "et", "puis", "là", "plus", "moins", "suis", "es", "est", "sommes",
+                  "êtes", "sont", "c’est", "étais", "était", "c’était", "étions", "étiez", "étaient", "été", "fus",
+                  "fut", "fûmes", "fûtes", "furent", "serai", "seras", "serat", "serons", "serez", "seront", "serais",
+                  "serait", "serions", "seriez", "seraient", "sois", "soit", "soyons", "spyez", "soient", "fusse",
+                  "fusses", "fût", "fussions", "fussiez", "fussent", "j’ai", "as", "a", "avons", "avez", "ont", "eu",
+                  "j’avais", "avait", "avions", "aviez", "avaient", "j’eus", "eut", "eûmes", "eûtes", "eurent",
+                  "j’aurai", "auras", "aurat", "aurons", "aurez", "auront", "j’aie", "aies", "ait", "ayons", "ayez",
+                  "aient", "j’eusse", "eusses", "eût", "eussions", "eussiez", "eussent", "dis", "dit", "disons",
+                  "dites", "disent", "disais", "disait", "disions", "disiez", "disaient", "dîmes", "dîtes", "dirent",
+                  "un", "une", "des", "la", "le", "les", "de", "à", "par", "pour", "avec", "malgré", "contre", "sauf",
+                  "sans", "envers", "en","selon", "depuis", "pendant", "dans", "après", "vers", "avant", "jusqu’à",
+                  "sur", "sous", "chez", "entre", "près", "côté", "derrière", "devant", "mon", "ma", "ton", "ta",
+                  "son", "sa", "notre", "votre", "leur", "mes", "tes", "ses", "nos", "vos", "leurs", "d’une", "d’un",
+                  "du", "me", "te", "se", "ce", "cet", "cette", "ces", "au", "aux", "tout", "tous", "toutes", "chaque",
+                  "dès", "y", "s’y", "s’en", "presque", "quelque", "quelques", "quel", "quels", "quelle", "quelles",
+                  "même", "très", "beaucoup", "trop", "tellement", "tant", "autant", "combien", "davantage",
+                  "encore", "fort", "absolument", "complètement", "ni", "tantôt", "lequel", "lequels", "laquelle",
+                  "laquelles", "lesquels", "lesquelles", "lorsque"],
+      "technical": ["*", "-", "—", "–", "»", "«"]
+    }
+  },
+  "es": {
+    "anaphora": {
+      "unknown": ["a", "al", "ante", "bajo", "con", "contra", "de", "del", "desde", "el", "en", "entre", "ha",
+                  "habéis", "había", "había", "habíais", "habíamos", "habían", "habías", "hacía", "habrá", "habrán",
+                  "habrás", "habré", "habréis", "habrémos", "han", "has", "haya", "hayamos", "hayan", "hayas",
+                  "hayáis", "he", "hemos", "hube", "hubiere", "hubieren", "hubieres", "hubieron", "hubiese", "hubiesen",
+                  "hubieses", "hubimos", "hubiste", "hubisteis", "hubiéreis", "hubiéremos", "hubiéseis", "hubiésemos",
+                  "hubo", "la", "las", "los", "me", "nos", "para", "por", "se", "sin", "so", "sobre", "te", "una",
+                  "unas", "uno", "unos", "vos"],
+      "technical": ["*", "-", "—", "–"]
     }
   }
 }

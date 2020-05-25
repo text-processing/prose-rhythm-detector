@@ -1,28 +1,8 @@
-""""
-ProseRhythmDetector - the tool for extraction of rhythm features.
-    Copyright (C) 2020  Vladislav Larionov, Vladislav Petryakov, Anatoly Poletaev, Ksenia Lagutina, Alla Manakhova, Nadezhda Lagutina, Elena Boychuk.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
-    The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
-"""
-
-
 # pylint: disable=R0902
 """
 Main window of the app
 """
+import os
 from concurrent.futures import ProcessPoolExecutor, Future
 
 from PySide2.QtCore import Slot, SIGNAL
@@ -235,8 +215,7 @@ class MainWindow(QMainWindow):
         file_name = self.__show_open_file_dialog(title)
         if not file_name[0]:
             return None
-        file = file_name[0].split('/')
-        self.__cur_file_name = file[len(file) - 1]
+        self.__cur_file_name = os.path.basename(file_name[0])
         return TextParser().parse_plain_text(file_name[0])
 
     @classmethod

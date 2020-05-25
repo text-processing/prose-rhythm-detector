@@ -1,24 +1,3 @@
-""""
-ProseRhythmDetector - the tool for extraction of rhythm features.
-    Copyright (C) 2020  Vladislav Larionov, Vladislav Petryakov, Anatoly Poletaev, Ksenia Lagutina, Alla Manakhova, Nadezhda Lagutina, Elena Boychuk.
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
-    The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
-"""
-
-
 """ This module describes polysyndeton parser """
 from itertools import chain
 
@@ -37,7 +16,7 @@ def __parse_simple_conjunctions_polysyndeton(sent: list, start_count: int, langu
     res = []
     sentence = [w.lower() for w in sent]
     for conj in conjunctions(language=language):
-        if sentence.count(conj) > 1:
+        if sentence.count(conj) > 2:
             res.append(Feature(feature_type="polysyndeton",
                                words=[start_count + i for i, w in enumerate(sentence) if w == conj],
                                context=[start_count, start_count + len(sentence) - 1]))
@@ -81,7 +60,7 @@ def __parse_conjunctive_adverbs_polysyndeton(sent: list, start_count: int, langu
         for i in range(len(sentence) - len(conj_adv) + 1):
             if tuple(sentence[i:i + len(conj_adv)]) == conj_adv:
                 candidates_start.append(i)
-        if len(candidates_start) > 1:
+        if len(candidates_start) > 2:
             res.append(Feature(feature_type="polysyndeton",
                                words=[start_count + c_pos + con_len for c_pos in candidates_start
                                       for con_len in range(len(conj_adv))],
