@@ -1,6 +1,6 @@
 # prose-rhythm-detector
 
-ProseRhythmDetector - the tool for extraction of rhythm features.
+ProseRhythmDetector - the tool for extraction of rhythm features and computation of stylometric features for texts.
 
 The tool is aimed at searching and visualizing rhythm figures in a fictional text. It was developed using the Python programming language.
 
@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License along with thi
     
 The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 
-## How to start the GUI application and utilities
+## How to start the GUI application for figure detection and utilities for stylometric features computation
 
 - Install Python 3.7
 - Install the library PySide2 for the GUI application
