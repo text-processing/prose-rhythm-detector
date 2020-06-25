@@ -47,32 +47,32 @@ ordered_features = [
 ]
 
 ordered_features_az_punc = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
+    # "a",
+    # "b",
+    # "c",
+    # "d",
+    # "e",
+    # "f",
+    # "g",
+    # "h",
+    # "i",
+    # "j",
+    # "k",
+    # "l",
+    # "m",
+    # "n",
+    # "o",
+    # "p",
+    # "q",
+    # "r",
+    # "s",
+    # "t",
+    # "u",
+    # "v",
+    # "w",
+    # "x",
+    # "y",
+    # "z",
     "а",
     "б",
     "в",
@@ -106,6 +106,20 @@ ordered_features_az_punc = [
     "э",
     "ю",
     "я",
+    # "ç",
+    # "à",
+    # "â",
+    # "é",
+    # "è",
+    # "ê",
+    # "ë",
+    # 'î',
+    # "ï",
+    # "ô",
+    # "ù",
+    # "û",
+    # "ü",
+    # "ÿ",
     ".",
     ",",
     "!",
@@ -130,15 +144,11 @@ ordered_features_az_punc = [
     "—"
 ]
 
-# словари для n-грамм
-ngram1_dict = dict()
-ngram2_dict = dict()
-ngram3_dict = dict()
-ngram4_dict = dict()
+count = 0
+complete = 0
 
 
-def generate_statistics(files, output_path_general, output_path_ngram1, output_path_ngram2, output_path_ngram3,
-                        output_path_ngram4, output_path_letters_punc, language):
+def generate_statistics(files, output_path_general, output_path_letters_punc):
     """
    входная точка в утилиту, которые формирует статискику для всех файлов
 
@@ -146,52 +156,22 @@ def generate_statistics(files, output_path_general, output_path_ngram1, output_p
 
    files: список файлов, подаваемых на вход утилите для дальнейшей обработки
    output_path_general: имя файла, где будет располагаться результат работы утилиты по общим характеристикам
-   output_path_ngramN: имена файлов, где будут храниться результаты работы утилиты по конкретным n-граммам (N - кол-во слов в n-граммам)
-   language: язык обрабатываемых текстов
+   output_path_letters_punc: имя файла, где будет распологаться результат работы утилиты по отдельным буквам и знакам
    """
 
+    global count
+    count = len(files)
+
     open(output_path_general, 'w').close()
-    open(output_path_ngram1, 'w').close()
-    open(output_path_ngram2, 'w').close()
-    open(output_path_ngram3, 'w').close()
-    open(output_path_ngram4, 'w').close()
     open(output_path_letters_punc, 'w').close()
 
     # Итерируем список файлов и результат статистики пишем в качестве строки в файл
 
-    pool = ThreadPool(len(files))
+    pool = ThreadPool(5)
     results = pool.starmap(generate_statistic, zip(files))
     results_az_punc = pool.starmap(generate_statistic_az_punc, zip(files))
     pool.close()
     pool.join()
-
-    ngram1_dict_sorted = sorted(ngram1_dict.items(), key=lambda kv: kv[1], reverse=True)
-    ngram1_list = list()
-    for elem in ngram1_dict_sorted[:40]:
-        ngram1_list.append(elem[0])
-    for elem in ngram1_dict_sorted[:40]:
-        ngram1_list.append(elem[1])
-
-    ngram2_dict_sorted = sorted(ngram2_dict.items(), key=lambda kv: kv[1], reverse=True)
-    ngram2_list = list()
-    for elem in ngram2_dict_sorted[:40]:
-        ngram2_list.append(elem[0])
-    for elem in ngram2_dict_sorted[:40]:
-        ngram2_list.append(elem[1])
-
-    ngram3_dict_sorted = sorted(ngram3_dict.items(), key=lambda kv: kv[1], reverse=True)
-    ngram3_list = list()
-    for elem in ngram3_dict_sorted[:40]:
-        ngram3_list.append(elem[0])
-    for elem in ngram3_dict_sorted[:40]:
-        ngram3_list.append(elem[1])
-
-    ngram4_dict_sorted = sorted(ngram4_dict.items(), key=lambda kv: kv[1], reverse=True)
-    ngram4_list = list()
-    for elem in ngram4_dict_sorted[:40]:
-        ngram4_list.append(elem[0])
-    for elem in ngram4_dict_sorted[:40]:
-        ngram4_list.append(elem[1])
 
     file_result = []
     file_result_az_punc = []
@@ -224,20 +204,7 @@ def generate_statistics(files, output_path_general, output_path_ngram1, output_p
                                           "average_word_length"
                                           ])
     table_general.to_csv(output_path_general, header=True, index=True)
-
-    table_ngram1 = make_csv_ngram(ngram1_list, files)
-    table_ngram1.to_csv(output_path_ngram1, header=True, index=True)
-
-    table_ngram2 = make_csv_ngram(ngram2_list, files)
-    table_ngram2.to_csv(output_path_ngram2, header=True, index=True)
-
-    table_ngram3 = make_csv_ngram(ngram3_list, files)
-    table_ngram3.to_csv(output_path_ngram3, header=True, index=True)
-
-    table_ngram4 = make_csv_ngram(ngram4_list, files)
-    table_ngram4.to_csv(output_path_ngram4, header=True, index=True)
-
-    table_number_of_alphabets_az = make_csv_number_of_alphabets_az(file_result_az_punc, files)
+    table_number_of_alphabets_az = pd.DataFrame(file_result_az_punc, index=files, columns=ordered_features_az_punc)
     table_number_of_alphabets_az.to_csv(output_path_letters_punc, header=True, index=True)
 
 
@@ -249,22 +216,12 @@ def generate_statistic(file):
 
    file: файл для обработки
    """
-    global ngram1_dict, ngram2_dict, ngram3_dict, ngram4_dict
+    global count, complete
 
-    print("Start preparing")
     text = get_text_file(file)
     splited_text = text.split("\n")
 
-    # создание отдельного объекта TextBlob без знаков пунктуации для подсчёта n-грамм
-    STOP_PUNC = '– - — ! @ # $ % ^ & * ( ) + = _ ? № ; : "'.split()
-    ngram1_text = ""
-    for word in text:
-        if word in STOP_PUNC:
-            continue
-        else:
-            ngram1_text += word
-    blob_ngram = TextBlob(ngram1_text)
-
+    # подготовка текста
     feature_dict = get_feature_dict()
     blob = TextBlob(text)
     sentences = blob.sentences
@@ -305,11 +262,8 @@ def generate_statistic(file):
     average_word_length = sum((map(lambda word: len(word), words))) / number_of_words
     feature_dict["average_word_length"] = average_word_length
 
-    # определение n-грамм для конкретного текста
-    get_ngram(blob_ngram, 1, ngram1_dict)
-    get_ngram(blob_ngram, 2, ngram2_dict)
-    get_ngram(blob_ngram, 3, ngram3_dict)
-    get_ngram(blob_ngram, 4, ngram4_dict)
+    complete += 1
+    print(complete, ' / ', count)
 
     return feature_dict
 
@@ -330,6 +284,7 @@ def generate_statistic_az_punc(file):
 
     return res
 
+
 def get_text(text_list):
     """
    "Склеивает" json список слов в единый текст рекурсивно
@@ -348,7 +303,6 @@ def get_text(text_list):
 
 
 def get_text_file(file):
-    print("Start preparing")
     f = open(file, encoding="utf-8")
     file_str = f.read()
     json_obj = json.loads(file_str)
@@ -377,103 +331,6 @@ def number_of_alphabets_az_punc(text):
 
     return feature_dict_az_punc
 
-
-def make_csv_number_of_alphabets_az(file_result_az_punc, files):
-    """
-    Функция, которая составляет csv-таблицу для букв и символов пунктуации
-    :param file_result_az_punc: список с результатами
-    :param files: файл для обработки
-    :return: csv-таблицу
-    """
-    table = pd.DataFrame(file_result_az_punc, index=files,
-                         columns=ordered_features_az_punc)
-    return (table)
-
-
-def get_ngram(blob, length, ngram_dict):
-    """
-    Функция для получение n-грамм заданной длинны 1 <= n <= 4 с учётом стоп-слов
-    :param blob: объект textblob, содержащий в себе текст из обрабанываемого файла
-    :param length: длинна n-граммы
-    :param ngram_dict: глобальный словарь для записи n-грамм
-    :return:
-    """
-    STOP_WORDS = 'I it my your his her its our their a the by for in on to в к с на о об обо во ко со по под за до над ' \
-                 'от ото пред при у вне me us you him them this that - ! @ # $ % ^ & * ( ) + = _ — ? № ; : " '.split()
-    ngram = blob.ngrams(n=length)
-    for gram in ngram:
-        s_gram = gram.__getitem__(0)
-        if s_gram in STOP_WORDS:
-            continue
-        str_gram = " ".join(gram)
-
-        if str_gram in ngram_dict:
-            ngram_dict[str_gram] += 1
-        else:
-            ngram_dict[str_gram] = 1
-
-
-def make_csv_ngram(ngram_list, files):
-    """
-    Функция, которая составляет csv-таблицу для n-грамм, в зависимости от количество слов в ней
-    :param ngram_list: список n-грамм из глобального словаря
-    :param files: файлы для обработки
-    :return: csv-таблицу
-    """
-    ngram_result = []
-    results_list = []
-    for ngram in ngram_list[40:]:
-        try:
-            results_list.append(str(ngram))
-        except Exception as e:
-            print(e)
-            print(traceback.format_exc())
-    ngram_result.append(results_list)
-    table = pd.DataFrame(ngram_result, index=files,
-                         columns=[ngram_list[0],
-                                  ngram_list[1],
-                                  ngram_list[2],
-                                  ngram_list[3],
-                                  ngram_list[4],
-                                  ngram_list[5],
-                                  ngram_list[6],
-                                  ngram_list[7],
-                                  ngram_list[8],
-                                  ngram_list[9],
-                                  ngram_list[10],
-                                  ngram_list[11],
-                                  ngram_list[12],
-                                  ngram_list[13],
-                                  ngram_list[14],
-                                  ngram_list[15],
-                                  ngram_list[16],
-                                  ngram_list[17],
-                                  ngram_list[18],
-                                  ngram_list[19],
-                                  ngram_list[20],
-                                  ngram_list[21],
-                                  ngram_list[22],
-                                  ngram_list[23],
-                                  ngram_list[24],
-                                  ngram_list[25],
-                                  ngram_list[26],
-                                  ngram_list[27],
-                                  ngram_list[28],
-                                  ngram_list[29],
-                                  ngram_list[30],
-                                  ngram_list[31],
-                                  ngram_list[32],
-                                  ngram_list[33],
-                                  ngram_list[34],
-                                  ngram_list[35],
-                                  ngram_list[36],
-                                  ngram_list[37],
-                                  ngram_list[38],
-                                  ngram_list[39]
-                                  ])
-    return (table)
-
-
 def get_feature_dict():
     """
    Возвращаем стандартный словарь с фичами, где ключ - название фичи, значение - их количество
@@ -498,32 +355,32 @@ def get_feature_dict_az_punc():
 
    """
     return {
-        "a": 0,
-        "b": 0,
-        "c": 0,
-        "d": 0,
-        "e": 0,
-        "f": 0,
-        "g": 0,
-        "h": 0,
-        "i": 0,
-        "j": 0,
-        "k": 0,
-        "l": 0,
-        "m": 0,
-        "n": 0,
-        "o": 0,
-        "p": 0,
-        "q": 0,
-        "r": 0,
-        "s": 0,
-        "t": 0,
-        "u": 0,
-        "v": 0,
-        "w": 0,
-        "x": 0,
-        "y": 0,
-        "z": 0,
+        # "a": 0,
+        # "b": 0,
+        # "c": 0,
+        # "d": 0,
+        # "e": 0,
+        # "f": 0,
+        # "g": 0,
+        # "h": 0,
+        # "i": 0,
+        # "j": 0,
+        # "k": 0,
+        # "l": 0,
+        # "m": 0,
+        # "n": 0,
+        # "o": 0,
+        # "p": 0,
+        # "q": 0,
+        # "r": 0,
+        # "s": 0,
+        # "t": 0,
+        # "u": 0,
+        # "v": 0,
+        # "w": 0,
+        # "x": 0,
+        # "y": 0,
+        # "z": 0,
         "а": 0,
         "б": 0,
         "в": 0,
@@ -557,6 +414,20 @@ def get_feature_dict_az_punc():
         "э": 0,
         "ю": 0,
         "я": 0,
+        # "ç": 0,
+        # "à": 0,
+        # "â": 0,
+        # "é": 0,
+        # "è": 0,
+        # "ê": 0,
+        # "ë": 0,
+        # 'î': 0,
+        # "ï": 0,
+        # "ô": 0,
+        # "ù": 0,
+        # "û": 0,
+        # "ü": 0,
+        # "ÿ": 0,
         ".": 0,
         ",": 0,
         "!": 0,
@@ -581,11 +452,10 @@ def get_feature_dict_az_punc():
         "—": 0
     }
 
-
 if __name__ == "__main__":
     FEATURES_DIR, OUTPUT = get_arguments(HELP_TEXT)
     texts = []
     for filename in os.listdir(FEATURES_DIR):
         if filename.endswith('prd'):
             texts.append(os.path.join(FEATURES_DIR, filename))
-    generate_statistics(texts, OUTPUT, 'en')
+    generate_statistics(texts, OUTPUT)
