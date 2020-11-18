@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="QWidget" name="central_widget">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -30,128 +30,6 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QSplitter" name="splitter_4">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <widget class="QSplitter" name="splitter_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <widget class="QWidget" name="layoutWidget">
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="document">
-           <property name="text">
-            <string>Документ</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextBrowser" name="text_content">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLabel" name="aspects_in_document">
-           <property name="text">
-            <string>Аспекты в документе</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListWidget" name="aspects_list">
-           <property name="textElideMode">
-            <enum>Qt::ElideNone</enum>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QSplitter" name="splitter_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <widget class="QSplitter" name="splitter">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <widget class="QWidget" name="layoutWidget">
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLabel" name="feature_list_label">
-            <property name="text">
-             <string>Аспекты</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="feature_list"/>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="layoutWidget">
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QLabel" name="stop_list">
-            <property name="text">
-             <string>Список слов исключённых из аспектов</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListView" name="statistics">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="statusTip">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-       <widget class="QPushButton" name="statistic_btn">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Статистика</string>
-        </property>
-       </widget>
-      </widget>
-     </widget>
-    </item>
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="progress_bar_layout">
       <property name="sizeConstraint">
@@ -179,11 +57,163 @@
       <item>
        <widget class="QLabel" name="progress_label">
         <property name="text">
-         <string>Поиск аспектов</string>
+         <string/>
         </property>
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splited_widget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QSplitter" name="document_splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QWidget" name="layoutWidget1">
+        <layout class="QVBoxLayout" name="document_wedget">
+         <item>
+          <widget class="QLabel" name="document">
+           <property name="text">
+            <string>Документ</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextBrowser" name="text_content">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget2">
+        <layout class="QVBoxLayout" name="aspects_list_widget">
+         <item>
+          <widget class="QLabel" name="aspects_in_document">
+           <property name="text">
+            <string>Аспекты в документе</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="aspects_list">
+           <property name="textElideMode">
+            <enum>Qt::ElideNone</enum>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QSplitter" name="main_aspect_splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QSplitter" name="aspect_splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QWidget" name="layoutWidget3">
+         <layout class="QVBoxLayout" name="aspects_widget">
+          <item>
+           <widget class="QLabel" name="feature_list_label">
+            <property name="text">
+             <string>Аспекты</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="AspectTreeWidget" name="aspect_tree">
+            <property name="headerHidden">
+             <bool>true</bool>
+            </property>
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="select_all_aspects_btn">
+              <property name="text">
+               <string>Выбрать все</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="uncheck_all_aspects_btn">
+              <property name="text">
+               <string>Убрать все</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="show_selected_aspects_btn">
+            <property name="text">
+             <string>Применить</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <layout class="QVBoxLayout" name="stop_words_widget">
+          <item>
+           <widget class="QLabel" name="stop_list_label">
+            <property name="text">
+             <string>Список слов исключённых из аспектов</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="StopWordTreeWidget" name="stop_list_tree">
+            <attribute name="headerVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QPushButton" name="statistic_btn">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Статистика</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -193,7 +223,7 @@
      <x>0</x>
      <y>0</y>
      <width>943</width>
-     <height>39</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -228,6 +258,18 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AspectTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header location="global">ui/aspect_tree_widget</header>
+  </customwidget>
+  <customwidget>
+   <class>StopWordTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header location="global">ui/stop_word_tree_widget</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

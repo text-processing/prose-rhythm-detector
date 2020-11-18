@@ -1,3 +1,18 @@
+# pylint: disable=E0401
+
+"""
+Contains functions that are common for statistical utiltes.
+
+exit_with_error_message
+prints the error message, the text about the utility, and exit.
+
+get_arguments
+returns the input file and output file/path from command line arguments.
+
+save_plot
+saves a plot as png.
+"""
+
 """"
 ProseRhythmDetector - the tool for extraction of rhythm features and computation of stylometric features for texts.
     Copyright (C) 2020  Vladislav Larionov, Vladislav Petryakov, Anatoly Poletaev, Ksenia Lagutina, Alla Manakhova, Nadezhda Lagutina, Elena Boychuk.
@@ -13,22 +28,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features and computation
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
-"""
-
-
-# pylint: disable=E0401
-
-"""
-Contains functions that are common for statistical utiltes.
-
-exit_with_error_message
-prints the error message, the text about the utility, and exit.
-
-get_arguments
-returns the input file and output file/path from command line arguments.
-
-save_plot
-saves a plot as png.
 """
 
 import sys

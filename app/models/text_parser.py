@@ -15,8 +15,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features and computation
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 """
 
-
-# pylint: disable=too-few-public-methods
 """
 Module describes text parser
 """
@@ -46,10 +44,9 @@ class TextParser:
         return begin
 
     @classmethod
-    def parse_plain_text(cls, file_with_text):
+    def parse_plain_text(cls, file_with_text) -> str:
         """
         :param file_with_text: file with text
-        :return: Array with parsed chapters
         """
         text = ''
         with open(file_with_text, 'r', encoding='utf8') as file:

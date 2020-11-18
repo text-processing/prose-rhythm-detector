@@ -15,9 +15,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features and computation
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 """
 
-
-# pylint: disable=C0103
-
 """
 Starting point of the app where window displays
 """

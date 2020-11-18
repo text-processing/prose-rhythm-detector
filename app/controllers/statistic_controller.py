@@ -1,5 +1,5 @@
 """"
-ProseRhythmDetector - the tool for extraction of rhythm features.
+ProseRhythmDetector - the tool for extraction of rhythm features and computation of stylometric features for texts.
     Copyright (C) 2020  Vladislav Larionov, Vladislav Petryakov, Anatoly Poletaev, Ksenia Lagutina, Alla Manakhova, Nadezhda Lagutina, Elena Boychuk.
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,9 +14,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features.
     
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 """
-
-
-# pylint: disable=R0903
 """
 Statistic controller
 """

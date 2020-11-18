@@ -15,8 +15,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features and computation
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 """
 
-
-# pylint: disable=R0903
 """
 Statistic model for a specific aspect
 """

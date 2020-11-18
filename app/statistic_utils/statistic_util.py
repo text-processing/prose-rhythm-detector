@@ -15,7 +15,6 @@ ProseRhythmDetector - the tool for extraction of rhythm features and computation
     The corresponding author: Ksenia Lagutina, lagutinakv@mail.ru
 """
 
-
 """
 Утилита для подсчёта статистических характеристик для ритмических средств.
 """
@@ -23,17 +22,19 @@ import json
 import re
 import os
 import traceback
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 
 from textblob import TextBlob
-import stanfordnlp
+import stanza
 
 import pandas as pd
-# from user_interface import get_arguments
+from user_interface import get_arguments
 
 from multiprocessing.dummy import Pool as ThreadPool
+from datetime import datetime
 
-HELP_TEXT = """Usage: python3 statistic_utils/statistic_util.py -f FEATURES_DIR -o OUTPUT_FILE
+
+HELP_TEXT = """Usage: python3 statistic_util.py -f FEATURES_DIR -o OUTPUT_FILE
 -f FEATURES_DIR, --features=FEATURES_DIR:
 \tPath to a directory with .prd.
 -o OUTPUT_FILE, --output=OUTPUT_FILE:
@@ -45,7 +46,7 @@ HELP_TEXT = """Usage: python3 statistic_utils/statistic_util.py -f FEATURES_DIR 
 
 def generate_statistics(files, output_path, language):
     """
-   входная точка в утилиту, которые формирует статискику для всех файлов
+   входная точка в утилиту, которые формирует статистику для всех файлов
 
    Parameters:
 
@@ -53,12 +54,17 @@ def generate_statistics(files, output_path, language):
    output_path: имя файла, где будет располагаться результат работы утилиты
    language: язык обрабатываемых текстов
    """
+    # stanza.download('en')
+    # stanza.download('ru')
+    # stanza.download('fr')
+    # stanza.download('es')
+
     open(output_path, 'w').close()
 
     # Итерируем список файлов и результат статистики пишем в качестве строки в файл
     file_result = []
 
-    pool = ThreadPool(len(files))
+    pool = ThreadPool(8)
     results = pool.starmap(generate_statistic, zip(files, [language for i in range(0, len(files))]))
     pool.close()
     pool.join()
@@ -67,11 +73,7 @@ def generate_statistics(files, output_path, language):
         try:
             result_list = []
             for f in ordered_features:
-                if f == "top_words":
-                    for i in range(0, 10):
-                        result_list.append(result[f][i])
-                else:
-                    result_list.append(str(result[f]))
+                result_list.append(str(result[f]))
             file_result.append(result_list)
         except Exception as e:
             print(e)
@@ -90,21 +92,15 @@ def generate_statistics(files, output_path, language):
                                   "chiasmus",
                                   "homogeneous members of the proposals",
                                   "polysyndeton",
-                                  "sequence of exclamatory and interrogative sentences",
+                                  "repeating exclamatory sentences",
+                                  "repeating interrogative sentences",
+                                  "assonance",
+                                  "alliteration",
                                   "aposiopesis",
                                   "epistrophe",
                                   "one_word",
-                                  "top1",
-                                  "top2",
-                                  "top3",
-                                  "top4",
-                                  "top5",
-                                  "top6",
-                                  "top7",
-                                  "top8",
-                                  "top9",
-                                  "top10",
                                   "feat_per_sent",
+                                  "lexical_grammatical_features",
                                   "NOUN",
                                   "ADJS",
                                   "VERB",
@@ -129,11 +125,11 @@ def generate_statistic(file, language):
 
     #  морфологический парсер
     # stanfordnlp.download(language)
-    nlp = stanfordnlp.Pipeline(lang=language, processors='tokenize,mwt,pos')
+    processors = 'tokenize,pos' if language in ['en', 'ru'] else 'tokenize,mwt,pos'
+    nlp = stanza.Pipeline(lang=language, processors=processors)
 
     features = json_obj["features"]
     feature_dict = get_feature_dict()  # count of sentences with that feature
-    words_dict = dict()  # key - word(feature), value - count of this word in text
     part_of_speech_dict = dict()  # словарь для частей речи
 
     # определение кол-ва предложений и слов в тексте
@@ -142,19 +138,16 @@ def generate_statistic(file, language):
     words_in_text = blob.words
 
     splited_text = text.split()
-    print("Finish preparing")
+    print(datetime.now().strftime("%H:%M:%S"), "Finish preparing")
     print("Count of features: " + str(len(features)))
     i = 0
+    words_in_features = []
     for feature in features:
-        sc = count_of_sentences_by_one_feature(feature, splited_text)  # кол-во предложений, ктр "задевает" фича
-        feature_dict[feature["type"]] += sc
+        #sc = count_of_sentences_by_one_feature(feature, splited_text)  # кол-во предложений, ктр "задевает" фича
+        feature_dict[feature["type"]] += 1
         for word in feature["words"]:  # просмотриваем список слов в фиче
             if 0 <= word < len(words_in_text):
-                if words_in_text[word] in words_dict:  # 10 наиболее встречаемых слов...
-                    words_dict[words_in_text[word]] += 1
-                else:
-                    words_dict[words_in_text[word]] = 1
-
+                words_in_features.append(words_in_text[word])
                 doc = nlp(words_in_text[word])
                 PoS = doc.sentences[0].tokens[0].words[0].upos
 
@@ -165,36 +158,22 @@ def generate_statistic(file, language):
                         part_of_speech_dict[PoS] = 1
         i += 1
         if i % 500 == 0:
-            print(str(i) + "-th iteration")
+            print(datetime.now().strftime("%H:%M:%S"), str(i) + "-th iteration out of", str(len(features)))
 
     for key in feature_dict:
         feature_dict[key] /= sentences_count
 
     #  добавляем части речи в feature_list
     for PoS in part_of_speech_dict:
-        feature_dict[PoS] = part_of_speech_dict[PoS] / len(words_dict)
+        feature_dict[PoS] = part_of_speech_dict[PoS] / len(words_in_features)
 
-    # Доля слов, встречающихся 1 раз
-    count = 0
-    for key in words_dict:
-        if words_dict[key] == 1:
-            count += 1
-    feature_dict["one_word"] = count / len(words_dict)
+    # Доля уникальных слов, т.е., повторяющихся только в одном аспекте
+    word_counter = Counter(words_in_features)
+    unique_words = {x: count for x, count in word_counter.items() if count <= 2 }
+    feature_dict["one_word"] = sum(unique_words.values()) / len(words_in_features)
     feature_dict["feat_per_sent"] = len(features) / sentences_count
-
-    # Добавляем топ 10 слов
-    words_dict = OrderedDict(sorted(words_dict.items(), key=lambda x: x[1], reverse=True))
-    feature_dict["top_words"] = []
-    name = "top_words_" + os.path.basename(f.name)[:-4] + ".txt"
-    with open(name, 'w', encoding="utf-8") as f:
-        for key in list(words_dict.keys())[:10]:
-            f.write(str(key) + " - " + str(words_dict[key]) + "\n")
-            feature_dict["top_words"].append(words_dict[key])
-    len_top_words = len(feature_dict["top_words"])
-    if len_top_words < 10:
-        for i in range(len_top_words, 10):
-            feature_dict["top_words"].append("-")
-
+    feature_dict["lexical_grammatical_features"] = sum([value for feature, value in feature_dict.items() if feature in lexical_grammatical_features])
+    print(datetime.now().strftime("%H:%M:%S"), 'Finish', file)
     return feature_dict
 
 
@@ -246,12 +225,15 @@ ordered_features = (
     "chiasmus",
     "homogeneous members of the proposals",
     "polysyndeton",
-    "sequence of exclamatory and interrogative sentences",
+    "repeating exclamatory sentences",
+    "repeating interrogative sentences",
+    "assonance",
+    "alliteration",
     "aposiopesis",
     "epistrophe",
     "one_word",
-    "top_words",
     "feat_per_sent",
+    "lexical_grammatical_features",
     "NOUN",
     "ADJ",
     "VERB",
@@ -264,6 +246,9 @@ ordered_part_of_speech = (
     "VERB",
     "ADV"
 )
+
+
+lexical_grammatical_features = ["anaphora", "epiphora", "symploce", "anadiplosis", "diacope", "epizeuxis", "epanalepsis", "chiasmus", "polysyndeton", "repeating exclamatory sentences", "repeating interrogative sentences", "aposiopesis"]
 
 
 def get_feature_dict():
@@ -283,7 +268,10 @@ def get_feature_dict():
         "chiasmus": 0,
         "homogeneous members of the proposals": 0,
         "polysyndeton": 0,
-        "sequence of exclamatory and interrogative sentences": 0,
+        "repeating exclamatory sentences": 0,
+        "repeating interrogative sentences": 0,
+        "assonance": 0,
+        "alliteration": 0,
         "aposiopesis": 0,
         "epistrophe": 0,
         "NOUN": 0,
