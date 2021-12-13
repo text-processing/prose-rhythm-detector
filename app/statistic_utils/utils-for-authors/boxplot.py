@@ -19,14 +19,17 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-files = ["rhythm_feat_ru.csv", "rhythm_feat_en.csv", "rhythm_feat_es.csv", "rhythm_feat_fr.csv"]
+files = ["en_rhythm_stat.csv", "ru_rhythm_stat.csv", "es_rhythm_stat.csv", "fr_rhythm_stat.csv"]
 for filename in files:
     df = pd.read_csv(filename, header=0, index_col=0)
     df = df*100 # Привести значения в диапазон, в котором их легче интерпретировать
+    df['max_word_distance'] = df['max_word_distance'] /100 #вернуть нормальный диапазон
+    df['avg_word_distance'] = df['avg_word_distance'] /100 #вернуть нормальный диапазон
+    features = df.columns
     df['author'] = [x.split('-')[1].strip() for x in list(df.index.values)]
     plt.figure(figsize=(10, 10))
     #features = ['feat_per_sent', 'anaphora','epiphora','symploce','anadiplosis','diacope','epizeuxis','epanalepsis','chiasmus','polysyndeton','repeating exclamatory sentences','repeating interrogative sentences','assonance','alliteration','aposiopesis', 'lexico-grammatical features']
-    features = ['lexico-grammatical features']
+    #features = ['lexico-grammatical features']
     colors = ['#FFFFFF', '#DCDCDC', '#D3D3D3', '#C0C0C0', '#A9A9A9', '#808080', '#696969']
     sn.set(font_scale=1.5)
     for feature in features:
@@ -35,5 +38,5 @@ for filename in files:
                                                                                                                              "markeredgecolor":"black",
                                                                                                                              "markersize":"10"})
         plt.tight_layout()
-        plt.savefig(feature.replace(' ', '_') + '_boxplot-' + filename[12:14] + '.png')
+        plt.savefig('boxplots/' + filename[:2] + '_' + feature.replace(' ', '_') + '_boxplot' + '.png')
         plt.clf()
