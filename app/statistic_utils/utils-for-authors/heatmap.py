@@ -22,9 +22,8 @@ import matplotlib.pyplot as plt
 from statistics import mean
 from scipy.spatial.distance import cdist
 
-def compute_mean_by_authors(feature_array, authors):
+def compute_mean_by_authors(feature_array, authors, unique_authors):
     mean_features = []
-    unique_authors = set(authors)
     data = list(zip(feature_array, authors))
     mean_feature = 0
     for unique_author in unique_authors:
@@ -38,30 +37,41 @@ def create_heatmap_by_authors(data, title):
     FEATURES = data.to_numpy()
     COLUMN_NAMES = list(data.columns.values)
     authors = [x.split('-')[1].strip() for x in list(data.index.values)]
-    unique_authors = set(authors)
+    unique_authors = list(dict.fromkeys(authors))
     df = pd.DataFrame(index=unique_authors, columns=COLUMN_NAMES)
     for i, column_name in enumerate(COLUMN_NAMES):
         feature = list(FEATURES[:, i])
-        mean_features = compute_mean_by_authors(feature, authors)
+        mean_features = compute_mean_by_authors(feature, authors, unique_authors)
         df[column_name]=pd.Series(np.array(mean_features), index=unique_authors)
-    plt.figure(figsize=(8, 8))
-    sn.heatmap(df, cbar=True, annot=True, fmt="3.1f", cmap="Greys") #YlGnBu
+    #df = df.rename(index={'N. G. Garin_Mikhailovskij': 'N. G. Garin-Mikhailovskij', 'M. E. Saltykov_Shchedrin': 'M. E. Saltykov-Shchedrin'})
+    #df = df.rename(index={'R. M. del Valle_Inclán': 'R. M. del Valle-Inclán', "A. C. Perez_Reverte":"A. C. Perez-Reverte", "L. Martin_Santos":"L. Martin-Santos", "F. Navarro_Villoslada":"F. Navarro-Villoslada"})
+    plt.figure(figsize=(11, 20))
+    ax = sn.heatmap(df, cbar=True, annot=True, fmt="3.1f", vmax=100)
     plt.tight_layout()
+    ax.hlines([15, 40], *ax.get_xlim(), colors="white") # en
+    #ax.hlines([18, 35], *ax.get_xlim(), colors="white") # ru
+    #ax.hlines([12, 30], *ax.get_xlim(), colors="white") # fr
+    #ax.hlines([8, 24], *ax.get_xlim(), colors="white") # es
     plt.savefig(title + '_author-features.png')
     plt.clf()
-    #df.to_csv(title + '_mean_by_authors.csv')
 
-files = ["rhythm_feat_ru.csv", "rhythm_feat_en.csv", "rhythm_feat_fr.csv", "rhythm_feat_es.csv"]
+files = [
+    #"rhythm_feat_ru.csv", 
+    "rhythm_feat_en.csv", 
+    #"rhythm_feat_fr.csv", 
+    #"rhythm_feat_es.csv"
+    ]
 
 
 if __name__ == "__main__":
     sn.set(font_scale=1.5)
     for filename in files:
         df = pd.read_csv(filename, header=0, index_col=0)
-        #df = df*100 # Привести значения в диапазон, в котором их легче интерпретировать
+        df = df.sort_index()
         #df_1 = df[['feat_per_sent', 'assonance', 'alliteration']]
         #create_heatmap_by_authors(df_1, 'ru_heatmap_most_frequent_features')
-        #df_2 = df[['lexical-grammatical features', 'polysyndeton', 'diacope', 'anaphora']]
-        #create_heatmap_by_authors(df_2, 'ru_heatmap_frequent_lexical_features')
-        df_3 = df[['diacope', 'polysyndeton', 'anaphora', 'epiphora']].div(df['lexical-grammatical features'], axis=0) * 100
-        create_heatmap_by_authors(df_3, filename[12:-4]+ '_heatmap_frequent_lexical_features')
+        df_2 = df[['lexico-grammatical features', 'polysyndeton', 'diacope', 'anaphora', 'epiphora']]*100
+        df_2 = df_2.rename(columns={"lexico-grammatical features": "all"})
+        create_heatmap_by_authors(df_2, filename[12:-4]+ '_heatmap_frequent_lexical_features')
+        #df_3 = df[['diacope', 'polysyndeton', 'anaphora', 'epiphora']].div(df['lexical-grammatical features'], axis=0) * 100
+        #create_heatmap_by_authors(df_3, filename[12:-4]+ '_heatmap_frequent_lexical_features')
